@@ -1,6 +1,6 @@
 {
   "name": "react-dev-utils-no-html",
-  "version": "10.2.2",
+  "version": "10.2.3",
   "description": "webpack utilities used by Create React App",
   "repository": {
     "type": "git",
@@ -20,6 +20,7 @@
     "checkRequiredFiles.js",
     "clearConsole.js",
     "crossSpawn.js",
+    "deepMerge.js",
     "errorOverlayMiddleware.js",
     "eslintFormatter.js",
     "evalSourceMapMiddleware.js",
