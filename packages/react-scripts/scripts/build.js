@@ -32,16 +32,16 @@ verifyTypeScriptSetup();
 // @remove-on-eject-end
 
 const path = require('path');
-const chalk = require('react-dev-utils/chalk');
+const chalk = require('react-dev-utils-no-html/chalk');
 const fs = require('fs-extra');
 const webpack = require('webpack');
 const configFactory = require('../config/webpack.config');
 const paths = require('../config/paths');
-const checkRequiredFiles = require('react-dev-utils/checkRequiredFiles');
-const formatWebpackMessages = require('react-dev-utils/formatWebpackMessages');
-const printHostingInstructions = require('react-dev-utils/printHostingInstructions');
-const FileSizeReporter = require('react-dev-utils/FileSizeReporter');
-const printBuildError = require('react-dev-utils/printBuildError');
+const checkRequiredFiles = require('react-dev-utils-no-html/checkRequiredFiles');
+const formatWebpackMessages = require('react-dev-utils-no-html/formatWebpackMessages');
+const printHostingInstructions = require('react-dev-utils-no-html/printHostingInstructions');
+const FileSizeReporter = require('react-dev-utils-no-html/FileSizeReporter');
+const printBuildError = require('react-dev-utils-no-html/printBuildError');
 
 const measureFileSizesBeforeBuild =
   FileSizeReporter.measureFileSizesBeforeBuild;
@@ -55,7 +55,7 @@ const WARN_AFTER_CHUNK_GZIP_SIZE = 1024 * 1024;
 const isInteractive = process.stdout.isTTY;
 
 // Warn and crash if required files are missing
-if (!checkRequiredFiles([paths.appHtml, paths.appIndexJs])) {
+if (!checkRequiredFiles([paths.appIndexJs])) {
   process.exit(1);
 }
 
@@ -64,7 +64,7 @@ const config = configFactory('production');
 
 // We require that you explicitly set browsers and do not fall back to
 // browserslist defaults.
-const { checkBrowsers } = require('react-dev-utils/browsersHelper');
+const { checkBrowsers } = require('react-dev-utils-no-html/browsersHelper');
 checkBrowsers(paths.appPath, isInteractive)
   .then(() => {
     // First, read the current file sizes in build directory.
@@ -72,11 +72,6 @@ checkBrowsers(paths.appPath, isInteractive)
     return measureFileSizesBeforeBuild(paths.appBuild);
   })
   .then(previousFileSizes => {
-    // Remove all content but keep the directory so that
-    // if you're in it, you don't end up in Trash
-    fs.emptyDirSync(paths.appBuild);
-    // Merge with the public folder
-    copyPublicFolder();
     // Start the webpack build
     return build(previousFileSizes);
   })
@@ -216,12 +211,5 @@ function build(previousFileSizes) {
         warnings: messages.warnings,
       });
     });
-  });
-}
-
-function copyPublicFolder() {
-  fs.copySync(paths.appPublic, paths.appBuild, {
-    dereference: true,
-    filter: file => file !== paths.appHtml,
   });
 }
