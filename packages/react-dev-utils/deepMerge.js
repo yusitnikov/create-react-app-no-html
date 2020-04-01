@@ -12,7 +12,7 @@ function deepMerge(item1, item2) {
     typeof item1 !== 'object' ||
     typeof item2 !== 'object'
   ) {
-    return item1 || item2;
+    return item2 || item1;
   }
 
   if (Array.isArray(item1)) {
